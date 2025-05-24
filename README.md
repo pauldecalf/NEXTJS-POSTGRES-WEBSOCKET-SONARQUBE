@@ -42,8 +42,11 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 ### Option 1 : SonarCloud (Recommandée pour GitHub)
 
-Le projet est configuré avec **SonarCloud** pour l'analyse automatique sur GitHub Actions :
+Le projet est configuré avec **SonarCloud** pour l'analyse automatique sur GitHub Actions.
 
+📋 **Guide complet** : Consultez [SONARCLOUD_SETUP.md](./SONARCLOUD_SETUP.md) pour la configuration détaillée.
+
+**Résumé rapide :**
 1. **Créez un compte** sur [SonarCloud.io](https://sonarcloud.io)
 2. **Importez votre repository** GitHub
 3. **Configurez ces secrets** dans votre repository GitHub :
