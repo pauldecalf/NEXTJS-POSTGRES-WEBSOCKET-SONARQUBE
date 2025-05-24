@@ -40,38 +40,45 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 ## Configuration SonarQube
 
-### Option 1 : SonarCloud (Recommandée pour GitHub)
+### SonarQube auto-hébergé
 
-Le projet est configuré avec **SonarCloud** pour l'analyse automatique sur GitHub Actions.
+Le projet est configuré avec **SonarQube** pour l'analyse automatique sur GitHub Actions.
 
-📋 **Guide complet** : Consultez [SONARCLOUD_SETUP.md](./SONARCLOUD_SETUP.md) pour la configuration détaillée.
+#### Configuration des secrets GitHub
 
-**Résumé rapide :**
-1. **Créez un compte** sur [SonarCloud.io](https://sonarcloud.io)
-2. **Importez votre repository** GitHub
-3. **Configurez ces secrets** dans votre repository GitHub :
-   - `SONAR_TOKEN` : Token généré depuis SonarCloud
-4. **Mettez à jour** `sonar-project.properties` :
-   ```properties
-   sonar.organization=votre-nom-utilisateur-github
+Configurez ces secrets dans votre repository GitHub (**Settings** → **Secrets and variables** → **Actions**) :
+
+- **`SONAR_TOKEN`** : Token d'authentification SonarQube
+- **`SONAR_HOST_URL`** : URL de votre instance SonarQube (ex: `http://localhost:3004` ou `https://your-sonarqube.com`)
+
+#### Configuration SonarQube local
+
+1. **Démarrez SonarQube** avec Docker :
+   ```bash
+   docker-compose up sonarqube
    ```
 
-Le workflow `build.yml` s'exécute automatiquement avec SonarCloud.
+2. **Accédez à SonarQube** : http://localhost:3004
 
-### Option 2 : SonarQube auto-hébergé
+3. **Connectez-vous** (admin/admin par défaut)
 
-Pour utiliser SonarQube avec GitHub Actions, utilisez le workflow `build-with-sonarqube.yml` qui :
-- Démarre automatiquement SonarQube dans le runner
-- Configure le projet automatiquement
-- Analyse le code
+4. **Créez le projet** :
+   - Nom : `NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE`
+   - Clé : `DEVOPS`
 
-### SonarQube local
+5. **Générez un token** :
+   - **Administration** → **Security** → **Users**
+   - Cliquez sur votre utilisateur → **Tokens**
+   - Générez un nouveau token
 
-1. Démarrez SonarQube avec Docker : `docker-compose up sonarqube`
-2. Accédez à http://localhost:3004
-3. Connectez-vous (admin/admin par défaut)
-4. Créez un nouveau projet avec la clé `DEVOPS`
-5. Générez un token d'authentification
+6. **Testez la connexion** (optionnel) :
+   ```bash
+   bash test-sonar-token.sh http://localhost:3004 YOUR_TOKEN
+   ```
+
+#### GitHub Actions
+
+Le workflow `build.yml` s'exécute automatiquement et utilise votre instance SonarQube.
 
 ## Scripts disponibles
 
@@ -84,8 +91,7 @@ npm run lint     # Vérification ESLint
 
 ## Workflows disponibles
 
-- **`build.yml`** : Analyse avec SonarCloud (recommandé)
-- **`build-with-sonarqube.yml`** : Analyse avec SonarQube auto-hébergé
+- **`build.yml`** : Analyse avec SonarQube auto-hébergé
 
 ## Structure du projet
 
