@@ -11,7 +11,7 @@ ERROR You're not authorized to analyze this project or the project doesn't exist
 
 ### Solution 1 : Créer le projet manuellement
 
-1. **Accédez à SonarQube** : http://localhost:3004
+1. **Accédez à SonarQube** : http://168.231.87.2:3004
 2. **Connectez-vous** avec admin/admin
 3. **Créez un nouveau projet** :
    - Cliquez sur **"Create Project"**
@@ -49,18 +49,18 @@ ERROR You're not authorized to analyze this project or the project doesn't exist
 ```bash
 # Test de création de projet via API
 curl -u YOUR_TOKEN: -X POST \
-  "http://localhost:3004/api/projects/create" \
+  "http://168.231.87.2:3004/api/projects/create" \
   -d "project=NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE&name=NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE"
 
 # Test de permissions
 curl -u YOUR_TOKEN: \
-  "http://localhost:3004/api/permissions/users?projectKey=NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE"
+  "http://168.231.87.2:3004/api/permissions/users?projectKey=NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE"
 ```
 
 ### Tester avec le script
 
 ```bash
-bash test-sonar-token.sh http://localhost:3004 YOUR_TOKEN
+bash test-sonar-token.sh http://168.231.87.2:3004 YOUR_TOKEN
 ```
 
 ## 📋 Configuration recommandée
@@ -76,8 +76,8 @@ Pour que le workflow GitHub Actions fonctionne, le token doit avoir :
 ### Variables d'environnement GitHub
 
 ```
-SONAR_TOKEN=squ_abc123...  # Token avec les bonnes permissions
-SONAR_HOST_URL=http://localhost:3004  # ou votre URL SonarQube
+SONAR_TOKEN=sqp_c6e2da62ccfa50599cbb064ffe3f62c5c5e18848
+SONAR_HOST_URL=http://168.231.87.2:3004
 ```
 
 ## 🎉 Vérification du succès

@@ -51,7 +51,7 @@ Le projet est configuré avec **SonarQube** pour l'analyse automatique sur GitHu
 Configurez ces secrets dans votre repository GitHub (**Settings** → **Secrets and variables** → **Actions**) :
 
 - **`SONAR_TOKEN`** : Token d'authentification SonarQube
-- **`SONAR_HOST_URL`** : URL de votre instance SonarQube (ex: `http://localhost:3004` ou `https://your-sonarqube.com`)
+- **`SONAR_HOST_URL`** : `http://168.231.87.2:3004`
 
 #### Configuration SonarQube local
 
@@ -60,7 +60,7 @@ Configurez ces secrets dans votre repository GitHub (**Settings** → **Secrets 
    docker-compose up sonarqube
    ```
 
-2. **Accédez à SonarQube** : http://localhost:3004
+2. **Accédez à SonarQube** : http://168.231.87.2:3004
 
 3. **Connectez-vous** (admin/admin par défaut)
 
@@ -75,7 +75,7 @@ Configurez ces secrets dans votre repository GitHub (**Settings** → **Secrets 
 
 6. **Testez la connexion** (optionnel) :
    ```bash
-   bash test-sonar-token.sh http://localhost:3004 YOUR_TOKEN
+   bash test-sonar-token.sh http://168.231.87.2:3004 YOUR_TOKEN
    ```
 
 #### GitHub Actions
