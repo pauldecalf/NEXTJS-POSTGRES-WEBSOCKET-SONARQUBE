@@ -44,6 +44,8 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 Le projet est configuré avec **SonarQube** pour l'analyse automatique sur GitHub Actions.
 
+📋 **Guide de dépannage** : Consultez [SONARQUBE_SETUP.md](./SONARQUBE_SETUP.md) pour résoudre les problèmes d'autorisation.
+
 #### Configuration des secrets GitHub
 
 Configurez ces secrets dans votre repository GitHub (**Settings** → **Secrets and variables** → **Actions**) :
@@ -64,7 +66,7 @@ Configurez ces secrets dans votre repository GitHub (**Settings** → **Secrets 
 
 4. **Créez le projet** :
    - Nom : `NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE`
-   - Clé : `DEVOPS`
+   - Clé : `NEXTJS-POSTGRES-WEBSOCKET-SONARQUBE`
 
 5. **Générez un token** :
    - **Administration** → **Security** → **Users**
