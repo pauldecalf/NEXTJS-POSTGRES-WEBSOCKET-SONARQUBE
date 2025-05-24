@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "3002:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - "3003:8080"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin
+
+  sonarqube:
+    image: sonarqube:latest
+    container_name: sonarqube
+    ports:
+      - "3004:9000"
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli
+    container_name: sonar-scanner
+    environment:
+      - SONAR_TOKEN=sonar-token
+    volumes:
+      - ./:/app
+    depends_on:
+      - nextjs
+      - db
+      - pgadmin
+      - sonarqube
+
+
+volumes:
+  pgdata:
+  
+
