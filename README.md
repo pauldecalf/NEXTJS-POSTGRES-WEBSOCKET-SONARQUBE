@@ -8,7 +8,7 @@ Un projet Next.js moderne avec intégration PostgreSQL, WebSocket et analyse de 
 - **TypeScript** pour la sécurité des types
 - **PostgreSQL** pour la base de données
 - **Docker & Docker Compose** pour la containerisation
-- **SonarQube** pour l'analyse de qualité du code
+- **SonarQube/SonarCloud** pour l'analyse de qualité du code
 - **Tailwind CSS** pour le styling
 
 ## Démarrage rapide
@@ -40,12 +40,27 @@ Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
 ## Configuration SonarQube
 
-### GitHub Actions
+### Option 1 : SonarCloud (Recommandée pour GitHub)
 
-Le projet est configuré avec un workflow GitHub Actions pour l'analyse automatique du code. Configurez ces secrets dans votre repository :
+Le projet est configuré avec **SonarCloud** pour l'analyse automatique sur GitHub Actions :
 
-- `SONAR_TOKEN` : Token d'authentification SonarQube
-- `SONAR_HOST_URL` : URL de votre instance SonarQube
+1. **Créez un compte** sur [SonarCloud.io](https://sonarcloud.io)
+2. **Importez votre repository** GitHub
+3. **Configurez ces secrets** dans votre repository GitHub :
+   - `SONAR_TOKEN` : Token généré depuis SonarCloud
+4. **Mettez à jour** `sonar-project.properties` :
+   ```properties
+   sonar.organization=votre-nom-utilisateur-github
+   ```
+
+Le workflow `build.yml` s'exécute automatiquement avec SonarCloud.
+
+### Option 2 : SonarQube auto-hébergé
+
+Pour utiliser SonarQube avec GitHub Actions, utilisez le workflow `build-with-sonarqube.yml` qui :
+- Démarre automatiquement SonarQube dans le runner
+- Configure le projet automatiquement
+- Analyse le code
 
 ### SonarQube local
 
@@ -64,6 +79,11 @@ npm run start    # Serveur de production
 npm run lint     # Vérification ESLint
 ```
 
+## Workflows disponibles
+
+- **`build.yml`** : Analyse avec SonarCloud (recommandé)
+- **`build-with-sonarqube.yml`** : Analyse avec SonarQube auto-hébergé
+
 ## Structure du projet
 
 ```
@@ -71,7 +91,7 @@ npm run lint     # Vérification ESLint
 ├── public/             # Fichiers statiques
 ├── .github/workflows/  # Workflows GitHub Actions
 ├── docker-compose.yml  # Configuration Docker
-├── sonar-project.properties  # Configuration SonarQube
+├── sonar-project.properties  # Configuration SonarQube/SonarCloud
 └── package.json       # Dépendances et scripts
 ```
 

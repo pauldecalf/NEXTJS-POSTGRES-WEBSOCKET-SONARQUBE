@@ -1,0 +1,64 @@
+name: Build with SonarQube
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and analyze with SonarQube
+    runs-on: ubuntu-latest
+    
+    services:
+      sonarqube:
+        image: sonarqube:latest
+        ports:
+          - 9000:9000
+        env:
+          SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: true
+        options: >-
+          --health-cmd="curl -f http://localhost:9000/api/system/status || exit 1"
+          --health-interval=30s
+          --health-timeout=10s
+          --health-retries=5
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linting
+        run: npm run lint
+      
+      - name: Build project
+        run: npm run build
+      
+      - name: Wait for SonarQube to be ready
+        run: |
+          timeout 300 bash -c 'until curl -s http://localhost:9000/api/system/status | grep -q "UP"; do sleep 10; done'
+      
+      - name: Setup SonarQube project
+        run: |
+          # Create project and generate token
+          curl -u admin:admin -X POST "http://localhost:9000/api/projects/create?project=DEVOPS&name=NextJS-Project"
+          TOKEN=$(curl -u admin:admin -X POST "http://localhost:9000/api/user_tokens/generate?name=github-action" | jq -r '.token')
+          echo "SONAR_TOKEN_LOCAL=$TOKEN" >> $GITHUB_ENV
+      
+      - name: SonarQube analysis
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN_LOCAL }}
+          SONAR_HOST_URL: http://localhost:9000 
