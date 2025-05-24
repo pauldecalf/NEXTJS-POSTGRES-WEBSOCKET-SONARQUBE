@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextJS + PostgreSQL + WebSocket + SonarQube
 
-## Getting Started
+Un projet Next.js moderne avec intégration PostgreSQL, WebSocket et analyse de code SonarQube.
 
-First, run the development server:
+## Technologies utilisées
+
+- **Next.js 15.3.2** avec React 19
+- **TypeScript** pour la sécurité des types
+- **PostgreSQL** pour la base de données
+- **Docker & Docker Compose** pour la containerisation
+- **SonarQube** pour l'analyse de qualité du code
+- **Tailwind CSS** pour le styling
+
+## Démarrage rapide
+
+### Avec Docker (Recommandé)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Démarrer tous les services
+docker-compose up -d
+
+# Accès aux services :
+# - Application Next.js : http://localhost:3001
+# - PostgreSQL : localhost:3002
+# - pgAdmin : http://localhost:3003
+# - SonarQube : http://localhost:3004
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Développement local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Installer les dépendances
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Démarrer le serveur de développement
+npm run dev
+```
 
-## Learn More
+Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
-To learn more about Next.js, take a look at the following resources:
+## Configuration SonarQube
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### GitHub Actions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Le projet est configuré avec un workflow GitHub Actions pour l'analyse automatique du code. Configurez ces secrets dans votre repository :
 
-## Deploy on Vercel
+- `SONAR_TOKEN` : Token d'authentification SonarQube
+- `SONAR_HOST_URL` : URL de votre instance SonarQube
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### SonarQube local
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Démarrez SonarQube avec Docker : `docker-compose up sonarqube`
+2. Accédez à http://localhost:3004
+3. Connectez-vous (admin/admin par défaut)
+4. Créez un nouveau projet avec la clé `DEVOPS`
+5. Générez un token d'authentification
+
+## Scripts disponibles
+
+```bash
+npm run dev      # Serveur de développement avec Turbopack
+npm run build    # Build de production
+npm run start    # Serveur de production
+npm run lint     # Vérification ESLint
+```
+
+## Structure du projet
+
+```
+├── app/                 # Pages et composants Next.js (App Router)
+├── public/             # Fichiers statiques
+├── .github/workflows/  # Workflows GitHub Actions
+├── docker-compose.yml  # Configuration Docker
+├── sonar-project.properties  # Configuration SonarQube
+└── package.json       # Dépendances et scripts
+```
+
+## Déploiement
+
+Le moyen le plus simple de déployer votre application Next.js est d'utiliser la [plateforme Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
+
+Consultez la [documentation de déploiement Next.js](https://nextjs.org/docs/app/building-your-application/deploying) pour plus de détails.
