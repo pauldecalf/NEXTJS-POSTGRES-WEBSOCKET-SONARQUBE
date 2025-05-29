@@ -15,11 +15,14 @@ services:
     image: postgres:16-alpine
     container_name: postgres-db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "3002:5432"
+    volumes: # Added to ensure data persistence for the db
+      - pgdata:/var/lib/postgresql/data
+
 
   pgadmin:
     image: dpage/pgadmin4
@@ -27,8 +30,10 @@ services:
     ports:
       - "3003:8080"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=pgadmin@pgadmin.org
-      - PGADMIN_DEFAULT_PASSWORD=pgadmin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    depends_on: # Added to ensure db is ready before pgadmin starts
+      - db
 
   sonarqube:
     image: sonarqube:latest
@@ -42,17 +47,15 @@ services:
     image: sonarsource/sonar-scanner-cli
     container_name: sonar-scanner
     environment:
-      - SONAR_TOKEN=sonar-token
+      SONAR_TOKEN: ${SONAR_TOKEN}
     volumes:
       - ./:/app
     depends_on:
       - nextjs
-      - db
-      - pgadmin
+      # - db # sonar-scanner doesn't directly depend on db
+      # - pgadmin # sonar-scanner doesn't directly depend on pgadmin
       - sonarqube
 
 
 volumes:
   pgdata:
-  
-
